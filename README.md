@@ -1,7 +1,7 @@
-# beima-cc
+# bayma-cc
 
-北马 Claude Code 收集工具集合
-Beima Claude Code Tools Collection
+白马 Claude Code 收集工具集合  
+Bayma Claude Code Tools Collection
 
 ---
 
@@ -15,7 +15,7 @@ This repository collects and organizes tools, configurations, and best practices
 
 ## 🚀 快速开始 | Quick Start
 
-敬请期待...
+敬请期待...  
 Coming soon...
 
 ---
@@ -23,7 +23,7 @@ Coming soon...
 ## 📂 目录结构 | Directory Structure
 
 ```
-beima-cc/
+bayma-cc/
 ├── tools/          # 工具脚本 | Tool scripts
 ├── configs/        # 配置文件 | Configuration files
 ├── examples/       # 示例代码 | Example code
@@ -40,6 +40,6 @@ MIT License
 
 ## 👤 Author
 
-**xiaobei666**
+**Bayma-AI**
 
-- GitHub: [@xiaobei666](https://github.com/xiaobei666)
+- GitHub: [@Bayma-AI](https://github.com/Bayma-AI)
