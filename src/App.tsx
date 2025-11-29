@@ -11,6 +11,7 @@ import {
   RefreshCw,
   Layers,
   ChevronRight,
+  BarChart3,
 } from "lucide-react";
 import type { Provider } from "@/types";
 import type { EnvConflict } from "@/types/env";
@@ -38,9 +39,10 @@ import UnifiedMcpPanel from "@/components/mcp/UnifiedMcpPanel";
 import PromptPanel from "@/components/prompts/PromptPanel";
 import { SkillsPage } from "@/components/skills/SkillsPage";
 import { AgentsPanel } from "@/components/agents/AgentsPanel";
+import { UsageLogPanel } from "@/components/usage/UsageLogPanel";
 import { Button } from "@/components/ui/button";
 
-type View = "providers" | "settings" | "prompts" | "skills" | "mcp" | "agents";
+type View = "providers" | "settings" | "prompts" | "skills" | "mcp" | "agents" | "usageLog";
 
 interface NavItem {
   id: View;
@@ -54,6 +56,7 @@ const navItems: NavItem[] = [
   { id: "prompts", icon: Book, labelKey: "nav.prompts" },
   { id: "mcp", icon: Server, labelKey: "nav.mcp" },
   { id: "skills", icon: Wrench, labelKey: "nav.skills", claudeOnly: true },
+  { id: "usageLog", icon: BarChart3, labelKey: "nav.usageLog" },
   { id: "settings", icon: Settings, labelKey: "nav.settings" },
 ];
 
@@ -279,6 +282,8 @@ function App() {
         return t("mcp.unifiedPanel.title");
       case "agents":
         return t("agents.title");
+      case "usageLog":
+        return t("usageLog.title", { defaultValue: "用量查询" });
       default:
         return t("nav.providersTitle", { defaultValue: "Providers" });
     }
@@ -319,6 +324,8 @@ function App() {
         );
       case "agents":
         return <AgentsPanel onOpenChange={() => setCurrentView("providers")} />;
+      case "usageLog":
+        return <UsageLogPanel onOpenChange={() => setCurrentView("providers")} />;
       default:
         return (
           <ProviderList

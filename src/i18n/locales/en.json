@@ -9,6 +9,7 @@
     "prompts": "Prompts",
     "mcp": "MCP Servers",
     "skills": "Skills",
+    "usageLog": "Usage Log",
     "settings": "Settings"
   },
   "common": {
@@ -36,7 +37,17 @@
     "formatError": "Format failed: {{error}}",
     "copy": "Copy",
     "view": "View",
-    "back": "Back"
+    "back": "Back",
+    "refresh": "Refresh",
+    "retry": "Retry"
+  },
+  "usageLog": {
+    "title": "Usage Log",
+    "description": "View API usage and computing power statistics",
+    "loading": "Loading usage data...",
+    "loadError": "Load Failed",
+    "loadErrorDesc": "Unable to load usage page, the website may block embedding",
+    "openInBrowser": "Open in Browser"
   },
   "apiKeyInput": {
     "placeholder": "Enter API Key",
