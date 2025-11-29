@@ -205,22 +205,20 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
     }, [skills, searchQuery, filterStatus]);
 
     return (
-      <div className="flex flex-col h-full min-h-0 bg-background/50">
-        {/* 顶部操作栏（固定区域）已移除，由 App.tsx 接管 */}
-
+      <div className="flex flex-col h-full min-h-0">
         {/* 技能网格（可滚动详情区域） */}
-        <div className="flex-1 min-h-0 overflow-y-auto animate-fade-in">
-          <div className="mx-auto max-w-[56rem] px-6 py-4">
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <div className="py-4">
             {loading ? (
               <div className="flex items-center justify-center h-64">
                 <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : skills.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
-                <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <p className="text-lg font-medium text-foreground">
                   {t("skills.empty")}
                 </p>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-2 text-sm text-muted-foreground">
                   {t("skills.emptyDescription")}
                 </p>
                 <Button

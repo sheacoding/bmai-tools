@@ -151,7 +151,7 @@ export function SettingsPage({
   const isBusy = useMemo(() => isLoading && !settings, [isLoading, settings]);
 
   return (
-    <div className="mx-auto max-w-[56rem] flex flex-col h-[calc(100vh-8rem)] px-6">
+    <div className="flex flex-col h-full">
       {isBusy ? (
         <div className="flex flex-1 items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -162,17 +162,19 @@ export function SettingsPage({
           onValueChange={setActiveTab}
           className="flex flex-col h-full"
         >
-          <TabsList className="grid w-full grid-cols-3 mb-6 glass rounded-xl">
-            <TabsTrigger value="general">
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 rounded-lg p-1">
+            <TabsTrigger value="general" className="rounded-md data-[state=active]:bg-background data-[state=active]:shadow-sm">
               {t("settings.tabGeneral")}
             </TabsTrigger>
-            <TabsTrigger value="advanced">
+            <TabsTrigger value="advanced" className="rounded-md data-[state=active]:bg-background data-[state=active]:shadow-sm">
               {t("settings.tabAdvanced")}
             </TabsTrigger>
-            <TabsTrigger value="about">{t("common.about")}</TabsTrigger>
+            <TabsTrigger value="about" className="rounded-md data-[state=active]:bg-background data-[state=active]:shadow-sm hidden">
+              {t("common.about")}
+            </TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 overflow-y-auto pr-2">
+          <div className="flex-1 overflow-y-auto">
             <TabsContent value="general" className="space-y-6 mt-0">
               {settings ? (
                 <>
@@ -216,7 +218,7 @@ export function SettingsPage({
                     onExport={exportConfig}
                     onClear={clearSelection}
                   />
-                  <div className="pt-6 border-t border-gray-200 dark:border-white/10">
+                  <div className="pt-6 border-t border-border">
                     <Button
                       onClick={handleSave}
                       className="w-full"
@@ -252,7 +254,7 @@ export function SettingsPage({
       >
         <DialogContent
           zIndex="alert"
-          className="max-w-md glass border-white/10"
+          className="max-w-md glass"
         >
           <DialogHeader>
             <DialogTitle>{t("settings.restartRequired")}</DialogTitle>

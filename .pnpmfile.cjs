@@ -1,0 +1,1 @@
+{"allowedDepBuilds":["sharp"]}

@@ -50,7 +50,7 @@ export function ProviderList({
         {[0, 1, 2].map((index) => (
           <div
             key={index}
-            className="h-28 w-full rounded-lg border border-dashed border-muted-foreground/40 bg-muted/40"
+            className="h-20 w-full rounded-xl border border-border bg-muted/30 animate-pulse"
           />
         ))}
       </div>
@@ -71,23 +71,25 @@ export function ProviderList({
         items={sortedProviders.map((provider) => provider.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div
-          className="space-y-3 animate-slide-up"
-          style={{ animationDelay: "0.1s" }}
-        >
-          {sortedProviders.map((provider) => (
-            <SortableProviderCard
+        <div className="space-y-3">
+          {sortedProviders.map((provider, index) => (
+            <div
               key={provider.id}
-              provider={provider}
-              isCurrent={provider.id === currentProviderId}
-              appId={appId}
-              onSwitch={onSwitch}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onDuplicate={onDuplicate}
-              onConfigureUsage={onConfigureUsage}
-              onOpenWebsite={onOpenWebsite}
-            />
+              className="animate-slide-up"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <SortableProviderCard
+                provider={provider}
+                isCurrent={provider.id === currentProviderId}
+                appId={appId}
+                onSwitch={onSwitch}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onDuplicate={onDuplicate}
+                onConfigureUsage={onConfigureUsage}
+                onOpenWebsite={onOpenWebsite}
+              />
+            </div>
           ))}
         </div>
       </SortableContext>

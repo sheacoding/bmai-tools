@@ -5,12 +5,12 @@ import { invoke } from "@tauri-apps/api/core";
 import {
   Plus,
   Settings,
-  ArrowLeft,
-  // Bot, // TODO: Agents 功能开发中，暂时不需要
   Book,
   Wrench,
   Server,
   RefreshCw,
+  Layers,
+  ChevronRight,
 } from "lucide-react";
 import type { Provider } from "@/types";
 import type { EnvConflict } from "@/types/env";
@@ -37,11 +37,25 @@ import UsageScriptModal from "@/components/UsageScriptModal";
 import UnifiedMcpPanel from "@/components/mcp/UnifiedMcpPanel";
 import PromptPanel from "@/components/prompts/PromptPanel";
 import { SkillsPage } from "@/components/skills/SkillsPage";
-import { DeepLinkImportDialog } from "@/components/DeepLinkImportDialog";
 import { AgentsPanel } from "@/components/agents/AgentsPanel";
 import { Button } from "@/components/ui/button";
 
 type View = "providers" | "settings" | "prompts" | "skills" | "mcp" | "agents";
+
+interface NavItem {
+  id: View;
+  icon: React.ElementType;
+  labelKey: string;
+  claudeOnly?: boolean;
+}
+
+const navItems: NavItem[] = [
+  { id: "providers", icon: Layers, labelKey: "nav.providers" },
+  { id: "prompts", icon: Book, labelKey: "nav.prompts" },
+  { id: "mcp", icon: Server, labelKey: "nav.mcp" },
+  { id: "skills", icon: Wrench, labelKey: "nav.skills", claudeOnly: true },
+  { id: "settings", icon: Settings, labelKey: "nav.settings" },
+];
 
 function App() {
   const { t } = useTranslation();
@@ -59,15 +73,12 @@ function App() {
   const promptPanelRef = useRef<any>(null);
   const mcpPanelRef = useRef<any>(null);
   const skillsPageRef = useRef<any>(null);
-  const addActionButtonClass =
-    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full w-8 h-8";
 
   const { data, isLoading, refetch } = useProvidersQuery(activeApp);
   const providers = useMemo(() => data?.providers ?? {}, [data]);
   const currentProviderId = data?.currentProviderId ?? "";
   const isClaudeApp = activeApp === "claude";
 
-  // 🎯 使用 useProviderActions Hook 统一管理所有 Provider 操作
   const {
     addProvider,
     updateProvider,
@@ -150,7 +161,6 @@ function App() {
         const conflicts = await checkEnvConflicts(activeApp);
 
         if (conflicts.length > 0) {
-          // 合并新检测到的冲突
           setEnvConflicts((prev) => {
             const existingKeys = new Set(
               prev.map((c) => `${c.varName}:${c.sourcePath}`),
@@ -176,7 +186,6 @@ function App() {
     checkEnvOnSwitch();
   }, [activeApp]);
 
-  // 打开网站链接
   const handleOpenWebsite = async (url: string) => {
     try {
       await settingsApi.openExternal(url);
@@ -190,39 +199,34 @@ function App() {
     }
   };
 
-  // 编辑供应商
   const handleEditProvider = async (provider: Provider) => {
     await updateProvider(provider);
     setEditingProvider(null);
   };
 
-  // 确认删除供应商
   const handleConfirmDelete = async () => {
     if (!confirmDelete) return;
     await deleteProvider(confirmDelete.id);
     setConfirmDelete(null);
   };
 
-  // 复制供应商
   const handleDuplicateProvider = async (provider: Provider) => {
-    // 1️⃣ 计算新的 sortIndex：如果原供应商有 sortIndex，则复制它
     const newSortIndex =
       provider.sortIndex !== undefined ? provider.sortIndex + 1 : undefined;
 
     const duplicatedProvider: Omit<Provider, "id" | "createdAt"> = {
       name: `${provider.name} copy`,
-      settingsConfig: JSON.parse(JSON.stringify(provider.settingsConfig)), // 深拷贝
+      settingsConfig: JSON.parse(JSON.stringify(provider.settingsConfig)),
       websiteUrl: provider.websiteUrl,
       category: provider.category,
-      sortIndex: newSortIndex, // 复制原 sortIndex + 1
+      sortIndex: newSortIndex,
       meta: provider.meta
         ? JSON.parse(JSON.stringify(provider.meta))
-        : undefined, // 深拷贝
+        : undefined,
       icon: provider.icon,
       iconColor: provider.iconColor,
     };
 
-    // 2️⃣ 如果原供应商有 sortIndex，需要将后续所有供应商的 sortIndex +1
     if (provider.sortIndex !== undefined) {
       const updates = Object.values(providers)
         .filter(
@@ -236,7 +240,6 @@ function App() {
           sortIndex: p.sortIndex! + 1,
         }));
 
-      // 先更新现有供应商的 sortIndex，为新供应商腾出位置
       if (updates.length > 0) {
         try {
           await providersApi.updateSortOrder(updates, activeApp);
@@ -247,22 +250,37 @@ function App() {
               defaultValue: "排序更新失败",
             }),
           );
-          return; // 如果排序更新失败，不继续添加
+          return;
         }
       }
     }
 
-    // 3️⃣ 添加复制的供应商
     await addProvider(duplicatedProvider);
   };
 
-  // 导入配置成功后刷新
   const handleImportSuccess = async () => {
     await refetch();
     try {
       await providersApi.updateTrayMenu();
     } catch (error) {
       console.error("[App] Failed to refresh tray menu", error);
+    }
+  };
+
+  const getPageTitle = () => {
+    switch (currentView) {
+      case "settings":
+        return t("settings.title");
+      case "prompts":
+        return t("prompts.title", { appName: t(`apps.${activeApp}`) });
+      case "skills":
+        return t("skills.title");
+      case "mcp":
+        return t("mcp.unifiedPanel.title");
+      case "agents":
+        return t("agents.title");
+      default:
+        return t("nav.providersTitle", { defaultValue: "Providers" });
     }
   };
 
@@ -303,243 +321,210 @@ function App() {
         return <AgentsPanel onOpenChange={() => setCurrentView("providers")} />;
       default:
         return (
-          <div className="mx-auto max-w-[56rem] px-6 space-y-4">
-            <ProviderList
-              providers={providers}
-              currentProviderId={currentProviderId}
-              appId={activeApp}
-              isLoading={isLoading}
-              onSwitch={switchProvider}
-              onEdit={setEditingProvider}
-              onDelete={setConfirmDelete}
-              onDuplicate={handleDuplicateProvider}
-              onConfigureUsage={setUsageProvider}
-              onOpenWebsite={handleOpenWebsite}
-              onCreate={() => setIsAddOpen(true)}
-            />
-          </div>
+          <ProviderList
+            providers={providers}
+            currentProviderId={currentProviderId}
+            appId={activeApp}
+            isLoading={isLoading}
+            onSwitch={switchProvider}
+            onEdit={setEditingProvider}
+            onDelete={setConfirmDelete}
+            onDuplicate={handleDuplicateProvider}
+            onConfigureUsage={setUsageProvider}
+            onOpenWebsite={handleOpenWebsite}
+            onCreate={() => setIsAddOpen(true)}
+          />
         );
     }
   };
 
-  return (
-    <div
-      className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary/30"
-      style={{ overflowX: "hidden" }}
-    >
-      {/* 全局拖拽区域（顶部 4px），避免上边框无法拖动 */}
-      <div
-        className="fixed top-0 left-0 right-0 h-4 z-[60]"
-        data-tauri-drag-region
-        style={{ WebkitAppRegion: "drag" } as any}
-      />
-      {/* 环境变量警告横幅 */}
-      {showEnvBanner && envConflicts.length > 0 && (
-        <EnvWarningBanner
-          conflicts={envConflicts}
-          onDismiss={() => {
-            setShowEnvBanner(false);
-            sessionStorage.setItem("env_banner_dismissed", "true");
-          }}
-          onDeleted={async () => {
-            // 删除后重新检测
-            try {
-              const allConflicts = await checkAllEnvConflicts();
-              const flatConflicts = Object.values(allConflicts).flat();
-              setEnvConflicts(flatConflicts);
-              if (flatConflicts.length === 0) {
-                setShowEnvBanner(false);
-              }
-            } catch (error) {
-              console.error(
-                "[App] Failed to re-check conflicts after deletion:",
-                error,
-              );
-            }
-          }}
-        />
-      )}
+  const renderHeaderActions = () => {
+    switch (currentView) {
+      case "prompts":
+        return (
+          <Button
+            size="sm"
+            onClick={() => promptPanelRef.current?.openAdd()}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            {t("prompts.add", { defaultValue: "Add" })}
+          </Button>
+        );
+      case "mcp":
+        return (
+          <Button
+            size="sm"
+            onClick={() => mcpPanelRef.current?.openAdd()}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            {t("mcp.unifiedPanel.addServer", { defaultValue: "Add Server" })}
+          </Button>
+        );
+      case "skills":
+        return (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => skillsPageRef.current?.refresh()}
+            >
+              <RefreshCw className="h-4 w-4 mr-1.5" />
+              {t("skills.refresh", { defaultValue: "Refresh" })}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => skillsPageRef.current?.openRepoManager()}
+            >
+              <Settings className="h-4 w-4 mr-1.5" />
+              {t("skills.repoManager", { defaultValue: "Repos" })}
+            </Button>
+          </div>
+        );
+      case "providers":
+        return (
+          <Button
+            size="sm"
+            onClick={() => setIsAddOpen(true)}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 hidden"
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            {t("provider.add", { defaultValue: "Add Provider" })}
+          </Button>
+        );
+      default:
+        return null;
+    }
+  };
 
-      <header
-        className="glass-header fixed top-0 z-50 w-full py-3 transition-all duration-300"
+  return (
+    <div className="flex h-screen overflow-hidden bg-background">
+      {/* 左侧边栏 */}
+      <aside
+        className="sidebar w-56 flex-shrink-0 flex flex-col border-r border-[hsl(var(--sidebar-border))]"
         data-tauri-drag-region
         style={{ WebkitAppRegion: "drag" } as any}
       >
-        <div className="h-4 w-full" aria-hidden data-tauri-drag-region />
+        {/* Logo 区域 */}
         <div
-          className="mx-auto max-w-[56rem] px-6 flex flex-wrap items-center justify-between gap-2"
+          className="h-14 flex items-center px-8 pt-6 border-b border-[hsl(var(--sidebar-border))]"
+          data-tauri-drag-region
+        >
+          <span
+            className="font-semibold text-[hsl(var(--sidebar-foreground))]"
+            style={{ WebkitAppRegion: "no-drag" } as any}
+          >
+            BMAI Tools
+          </span>
+        </div>
+
+        {/* 应用切换器 */}
+        <div
+          className="px-3 py-3 border-b border-[hsl(var(--sidebar-border))]"
+          style={{ WebkitAppRegion: "no-drag" } as any}
+        >
+          <AppSwitcher activeApp={activeApp} onSwitch={setActiveApp} />
+        </div>
+
+        {/* 导航菜单 */}
+        <nav
+          className="flex-1 px-3 py-4 space-y-1 overflow-y-auto"
+          style={{ WebkitAppRegion: "no-drag" } as any}
+        >
+          {navItems
+            .filter((item) => !item.claudeOnly || isClaudeApp)
+            .map((item) => {
+              const Icon = item.icon;
+              const isActive = currentView === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setCurrentView(item.id)}
+                  className={cn(
+                    "sidebar-nav-item w-full",
+                    isActive && "active"
+                  )}
+                >
+                  <Icon className="h-4 w-4 flex-shrink-0" />
+                  <span className="flex-1 text-left">
+                    {t(item.labelKey, { defaultValue: item.id })}
+                  </span>
+                  {isActive && (
+                    <ChevronRight className="h-4 w-4 opacity-60" />
+                  )}
+                </button>
+              );
+            })}
+        </nav>
+
+        {/* 底部更新提示 */}
+        <div
+          className="px-3 py-3 border-t border-[hsl(var(--sidebar-border))]"
+          style={{ WebkitAppRegion: "no-drag" } as any}
+        >
+          <UpdateBadge onClick={() => setCurrentView("settings")} />
+        </div>
+      </aside>
+
+      {/* 右侧主内容区 */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* 环境变量警告横幅 */}
+        {showEnvBanner && envConflicts.length > 0 && (
+          <EnvWarningBanner
+            conflicts={envConflicts}
+            onDismiss={() => {
+              setShowEnvBanner(false);
+              sessionStorage.setItem("env_banner_dismissed", "true");
+            }}
+            onDeleted={async () => {
+              try {
+                const allConflicts = await checkAllEnvConflicts();
+                const flatConflicts = Object.values(allConflicts).flat();
+                setEnvConflicts(flatConflicts);
+                if (flatConflicts.length === 0) {
+                  setShowEnvBanner(false);
+                }
+              } catch (error) {
+                console.error(
+                  "[App] Failed to re-check conflicts after deletion:",
+                  error,
+                );
+              }
+            }}
+          />
+        )}
+
+        {/* 顶部标题栏 */}
+        <header
+          className="h-14 flex-shrink-0 flex items-center justify-between px-6 border-b border-border bg-background"
           data-tauri-drag-region
           style={{ WebkitAppRegion: "drag" } as any}
         >
-          <div
-            className="flex items-center gap-1"
+          <h1
+            className="text-lg font-semibold text-foreground"
             style={{ WebkitAppRegion: "no-drag" } as any}
           >
-            {currentView !== "providers" ? (
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setCurrentView("providers")}
-                  className="mr-2 rounded-lg"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-                <h1 className="text-lg font-semibold">
-                  {currentView === "settings" && t("settings.title")}
-                  {currentView === "prompts" &&
-                    t("prompts.title", { appName: t(`apps.${activeApp}`) })}
-                  {currentView === "skills" && t("skills.title")}
-                  {currentView === "mcp" && t("mcp.unifiedPanel.title")}
-                  {currentView === "agents" && t("agents.title")}
-                </h1>
-              </div>
-            ) : (
-              <>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://github.com/your-username/bmai-tools"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-xl font-semibold text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    BMAI Tools
-                  </a>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setCurrentView("settings")}
-                    title={t("common.settings")}
-                    className="hover:bg-black/5 dark:hover:bg-white/5"
-                  >
-                    <Settings className="h-4 w-4" />
-                  </Button>
-                </div>
-                <UpdateBadge onClick={() => setCurrentView("settings")} />
-              </>
-            )}
-          </div>
-
+            {getPageTitle()}
+          </h1>
           <div
-            className="flex items-center gap-2"
+            className="flex items-center gap-3"
             style={{ WebkitAppRegion: "no-drag" } as any}
           >
-            {currentView === "prompts" && (
-              <Button
-                size="icon"
-                onClick={() => promptPanelRef.current?.openAdd()}
-                className={addActionButtonClass}
-                title={t("prompts.add")}
-              >
-                <Plus className="h-5 w-5" />
-              </Button>
-            )}
-            {currentView === "mcp" && (
-              <Button
-                size="icon"
-                onClick={() => mcpPanelRef.current?.openAdd()}
-                className={addActionButtonClass}
-                title={t("mcp.unifiedPanel.addServer")}
-              >
-                <Plus className="h-5 w-5" />
-              </Button>
-            )}
-            {currentView === "skills" && (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => skillsPageRef.current?.refresh()}
-                  className="hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  {t("skills.refresh")}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => skillsPageRef.current?.openRepoManager()}
-                  className="hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  {t("skills.repoManager")}
-                </Button>
-              </>
-            )}
-            {currentView === "providers" && (
-              <>
-                <AppSwitcher activeApp={activeApp} onSwitch={setActiveApp} />
-
-                <div className="glass p-1 rounded-xl flex items-center gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setCurrentView("skills")}
-                    className={cn(
-                      "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
-                      "transition-all duration-200 ease-in-out overflow-hidden",
-                      isClaudeApp
-                        ? "opacity-100 w-8 scale-100 px-2"
-                        : "opacity-0 w-0 scale-75 pointer-events-none px-0 -ml-1",
-                    )}
-                    title={t("skills.manage")}
-                  >
-                    <Wrench className="h-4 w-4 flex-shrink-0" />
-                  </Button>
-                  {/* TODO: Agents 功能开发中，暂时隐藏入口 */}
-                  {/* {isClaudeApp && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setCurrentView("agents")}
-                      className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
-                      title="Agents"
-                    >
-                      <Bot className="h-4 w-4" />
-                    </Button>
-                  )} */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setCurrentView("prompts")}
-                    className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
-                    title={t("prompts.manage")}
-                  >
-                    <Book className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setCurrentView("mcp")}
-                    className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
-                    title={t("mcp.title")}
-                  >
-                    <Server className="h-4 w-4" />
-                  </Button>
-                </div>
-
-                <Button
-                  onClick={() => setIsAddOpen(true)}
-                  size="icon"
-                  className={`ml-2 ${addActionButtonClass}`}
-                >
-                  <Plus className="h-5 w-5" />
-                </Button>
-              </>
-            )}
+            {renderHeaderActions()}
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main
-        className={`flex-1 overflow-y-auto pb-12 animate-fade-in scroll-overlay ${
-          currentView === "providers" ? "pt-24" : "pt-20"
-        }`}
-        style={{ overflowX: "hidden" }}
-      >
-        {renderContent()}
-      </main>
+        {/* 主内容区 */}
+        <main className="flex-1 overflow-y-auto p-6 animate-fade-in">
+          <div className="max-w-4xl mx-auto">
+            {renderContent()}
+          </div>
+        </main>
+      </div>
 
+      {/* 对话框 */}
       <AddProviderDialog
         open={isAddOpen}
         onOpenChange={setIsAddOpen}
@@ -584,8 +569,6 @@ function App() {
         onConfirm={() => void handleConfirmDelete()}
         onCancel={() => setConfirmDelete(null)}
       />
-
-      <DeepLinkImportDialog />
     </div>
   );
 }

@@ -3,6 +3,14 @@
     "title": "BMAI Tools",
     "description": "AI Development Tools - All-in-One Assistant"
   },
+  "nav": {
+    "providers": "BMAI",
+    "providersTitle": "BMAI · Simple Through Companionship",
+    "prompts": "Prompts",
+    "mcp": "MCP Servers",
+    "skills": "Skills",
+    "settings": "Settings"
+  },
   "common": {
     "add": "Add",
     "edit": "Edit",
@@ -750,72 +758,6 @@
       "uninstalled": "Not installed"
     },
     "noResults": "No matching skills found"
-  },
-  "deeplink": {
-    "confirmImport": "Confirm Import Provider",
-    "confirmImportDescription": "The following configuration will be imported from deep link into BMAI Tools",
-    "importPrompt": "Import Prompt",
-    "importPromptDescription": "Please confirm whether to import this system prompt",
-    "importMcp": "Import MCP Servers",
-    "importMcpDescription": "Please confirm whether to import these MCP Servers",
-    "importSkill": "Add Skill Repository",
-    "importSkillDescription": "Please confirm whether to add this Skill repository",
-    "promptImportSuccess": "Prompt imported successfully",
-    "promptImportSuccessDescription": "Imported prompt: {{name}}",
-    "mcpImportSuccess": "MCP Servers imported successfully",
-    "mcpImportSuccessDescription": "Successfully imported {{count}} server(s)",
-    "mcpPartialSuccess": "Partial import success",
-    "mcpPartialSuccessDescription": "Success: {{success}}, Failed: {{failed}}",
-    "skillImportSuccess": "Skill repository added successfully",
-    "skillImportSuccessDescription": "Added repository: {{repo}}",
-    "app": "App Type",
-    "providerName": "Provider Name",
-    "homepage": "Homepage",
-    "endpoint": "API Endpoint",
-    "apiKey": "API Key",
-    "icon": "Icon",
-    "model": "Model",
-    "haikuModel": "Haiku Model",
-    "sonnetModel": "Sonnet Model",
-    "opusModel": "Opus Model",
-    "multiModel": "Multi-Modal Model",
-    "notes": "Notes",
-    "import": "Import",
-    "importing": "Importing...",
-    "warning": "Please confirm the information above is correct before importing. You can edit or delete it later in the provider list.",
-    "parseError": "Failed to parse deep link",
-    "importSuccess": "Import successful",
-    "importSuccessDescription": "Provider \"{{name}}\" has been successfully imported",
-    "importError": "Failed to import",
-    "configSource": "Config Source",
-    "configEmbedded": "Embedded Config",
-    "configRemote": "Remote Config",
-    "configDetails": "Config Details",
-    "configUrl": "Config File URL",
-    "configMergeError": "Failed to merge configuration file",
-    "mcp": {
-      "title": "Batch Import MCP Servers",
-      "targetApps": "Target Apps",
-      "serverCount": "MCP Servers ({{count}})",
-      "enabledWarning": "After import, configurations will be written to all specified apps immediately"
-    },
-    "prompt": {
-      "title": "Import System Prompt",
-      "app": "App",
-      "name": "Name",
-      "description": "Description",
-      "contentPreview": "Content Preview",
-      "enabledWarning": "After import, this prompt will be enabled immediately and other prompts will be disabled"
-    },
-    "skill": {
-      "title": "Add Claude Skill Repository",
-      "repo": "GitHub Repository",
-      "directory": "Target Directory",
-      "branch": "Branch",
-      "skillsPath": "Skills Path",
-      "hint": "This will add the Skill repository to the list.",
-      "hintDetail": "After adding, you can install specific Skills from the Skills management page."
-    }
   },
   "iconPicker": {
     "search": "Search Icons",

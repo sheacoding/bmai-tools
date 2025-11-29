@@ -43,22 +43,6 @@ const PromptPanel = React.forwardRef<PromptPanelHandle, PromptPanelProps>(
       if (open) reload();
     }, [open, reload]);
 
-    // Listen for prompt import events from deep link
-    useEffect(() => {
-      const handlePromptImported = (event: Event) => {
-        const customEvent = event as CustomEvent;
-        // Reload if the import is for this app
-        if (customEvent.detail?.app === appId) {
-          reload();
-        }
-      };
-
-      window.addEventListener("prompt-imported", handlePromptImported);
-      return () => {
-        window.removeEventListener("prompt-imported", handlePromptImported);
-      };
-    }, [appId, reload]);
-
     const handleAdd = () => {
       setEditingId(null);
       setIsFormOpen(true);
@@ -96,8 +80,8 @@ const PromptPanel = React.forwardRef<PromptPanelHandle, PromptPanelProps>(
     const enabledPrompt = promptEntries.find(([_, p]) => p.enabled);
 
     return (
-      <div className="mx-auto max-w-[56rem] flex flex-col h-[calc(100vh-8rem)] px-6">
-        <div className="flex-shrink-0 py-4 glass rounded-xl border border-white/10 mb-4 px-6">
+      <div className="flex flex-col h-full">
+        <div className="flex-shrink-0 py-3 px-4 bg-muted/30 rounded-lg border border-border mb-4">
           <div className="text-sm text-muted-foreground">
             {t("prompts.count", { count: promptEntries.length })} ·{" "}
             {enabledPrompt
@@ -106,23 +90,23 @@ const PromptPanel = React.forwardRef<PromptPanelHandle, PromptPanelProps>(
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto pb-16">
+        <div className="flex-1 overflow-y-auto">
           {loading ? (
-            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            <div className="text-center py-12 text-muted-foreground">
               {t("prompts.loading")}
             </div>
           ) : promptEntries.length === 0 ? (
             <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-muted/50 rounded-full flex items-center justify-center">
                 <FileText
                   size={24}
-                  className="text-gray-400 dark:text-gray-500"
+                  className="text-muted-foreground"
                 />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+              <h3 className="text-lg font-medium text-foreground mb-2">
                 {t("prompts.empty")}
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <p className="text-muted-foreground text-sm">
                 {t("prompts.emptyDescription")}
               </p>
             </div>

@@ -354,7 +354,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
       onClose={onClose}
       footer={footer}
     >
-      <div className="glass rounded-xl border border-white/10 px-6 py-4 flex items-center justify-between gap-4">
+      <div className="glass rounded-xl px-6 py-4 flex items-center justify-between gap-4">
         <p className="text-base font-medium leading-none text-foreground">
           {t("usageScript.enableUsageQuery")}
         </p>
@@ -370,7 +370,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
       {script.enabled && (
         <div className="space-y-6">
           {/* 预设模板选择 */}
-          <div className="space-y-4 glass rounded-xl border border-white/10 p-6">
+          <div className="space-y-4 glass rounded-xl p-6">
             <Label className="text-base font-medium">
               {t("usageScript.presetTemplate")}
             </Label>
@@ -419,7 +419,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                             }
                             placeholder="sk-xxxxx"
                             autoComplete="off"
-                            className="border-white/10"
+                            className="border-border"
                           />
                           {script.apiKey && (
                             <button
@@ -455,7 +455,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                           }
                           placeholder="https://api.example.com"
                           autoComplete="off"
-                          className="border-white/10"
+                          className="border-border"
                         />
                       </div>
                     </>
@@ -476,7 +476,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                           }
                           placeholder="https://api.newapi.com"
                           autoComplete="off"
-                          className="border-white/10"
+                          className="border-border"
                         />
                       </div>
 
@@ -499,7 +499,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                               "usageScript.accessTokenPlaceholder",
                             )}
                             autoComplete="off"
-                            className="border-white/10"
+                            className="border-border"
                           />
                           {script.accessToken && (
                             <button
@@ -537,7 +537,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                           }
                           placeholder={t("usageScript.userIdPlaceholder")}
                           autoComplete="off"
-                          className="border-white/10"
+                          className="border-border"
                         />
                       </div>
                     </>
@@ -547,7 +547,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
             )}
 
             {/* 通用配置（始终显示） */}
-            <div className="grid gap-4 md:grid-cols-2 pt-4 border-t border-white/10">
+            <div className="grid gap-4 md:grid-cols-2 pt-4 border-t border-border">
               {/* 超时时间 */}
               <div className="space-y-2">
                 <Label htmlFor="usage-timeout">
@@ -570,7 +570,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                       timeout: validateTimeout(e.target.value),
                     })
                   }
-                  className="border-white/10"
+                  className="border-border"
                 />
               </div>
 
@@ -601,14 +601,14 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                       ),
                     })
                   }
-                  className="border-white/10"
+                  className="border-border"
                 />
               </div>
             </div>
           </div>
 
           {/* 提取器代码 */}
-          <div className="space-y-4 glass rounded-xl border border-white/10 p-6">
+          <div className="space-y-4 glass rounded-xl p-6">
             <div className="flex items-center justify-between">
               <Label className="text-base font-medium">
                 {t("usageScript.extractorCode")}
@@ -628,12 +628,12 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
           </div>
 
           {/* 帮助信息 */}
-          <div className="glass rounded-xl border border-white/10 p-6 text-sm text-foreground/90">
+          <div className="glass rounded-xl p-6 text-sm text-foreground/90">
             <h4 className="font-medium mb-2">{t("usageScript.scriptHelp")}</h4>
             <div className="space-y-3 text-xs">
               <div>
                 <strong>{t("usageScript.configFormat")}</strong>
-                <pre className="mt-1 p-2 bg-black/20 text-foreground rounded border border-white/10 text-[10px] overflow-x-auto">
+                <pre className="mt-1 p-2 bg-muted text-foreground rounded border border-border text-[10px] overflow-x-auto">
                   {`({
   request: {
     url: "{{baseUrl}}/api/usage",

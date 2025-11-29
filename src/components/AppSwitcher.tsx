@@ -1,95 +1,53 @@
 import type { AppId } from "@/lib/api";
 import { ProviderIcon } from "@/components/ProviderIcon";
+import { cn } from "@/lib/utils";
 
 interface AppSwitcherProps {
   activeApp: AppId;
   onSwitch: (app: AppId) => void;
 }
 
+const apps: { id: AppId; icon: string; name: string }[] = [
+  { id: "claude", icon: "claude", name: "Claude" },
+  { id: "codex", icon: "openai", name: "Codex" },
+  { id: "gemini", icon: "gemini", name: "Gemini" },
+];
+
 export function AppSwitcher({ activeApp, onSwitch }: AppSwitcherProps) {
-  const handleSwitch = (app: AppId) => {
-    if (app === activeApp) return;
-    onSwitch(app);
-  };
-  const iconSize = 20;
-  const appIconName: Record<AppId, string> = {
-    claude: "claude",
-    codex: "openai",
-    gemini: "gemini",
-  };
-  const appDisplayName: Record<AppId, string> = {
-    claude: "Claude",
-    codex: "Codex",
-    gemini: "Gemini",
-  };
-
   return (
-    <div className="inline-flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 gap-1">
-      <button
-        type="button"
-        onClick={() => handleSwitch("claude")}
-        className={`group inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-          activeApp === "claude"
-            ? "bg-white text-gray-900 shadow-sm dark:bg-gray-900 dark:text-gray-100"
-            : "text-gray-500 hover:text-gray-900 hover:bg-white/50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800/60"
-        }`}
-      >
-        <ProviderIcon
-          icon={appIconName.claude}
-          name={appDisplayName.claude}
-          size={iconSize}
-          className={
-            activeApp === "claude"
-              ? "text-foreground"
-              : "text-gray-500 dark:text-gray-400 group-hover:text-foreground transition-colors"
-          }
-        />
-        <span>{appDisplayName.claude}</span>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => handleSwitch("codex")}
-        className={`inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-          activeApp === "codex"
-            ? "bg-white text-gray-900 shadow-sm dark:bg-gray-900 dark:text-gray-100"
-            : "text-gray-500 hover:text-gray-900 hover:bg-white/50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800/60"
-        }`}
-      >
-        <ProviderIcon
-          icon={appIconName.codex}
-          name={appDisplayName.codex}
-          size={iconSize}
-          className={
-            activeApp === "codex"
-              ? "text-foreground"
-              : "text-gray-500 dark:text-gray-400 group-hover:text-foreground transition-colors"
-          }
-        />
-        <span>{appDisplayName.codex}</span>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => handleSwitch("gemini")}
-        className={`inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-          activeApp === "gemini"
-            ? "bg-white text-gray-900 shadow-sm dark:bg-gray-900 dark:text-gray-100"
-            : "text-gray-500 hover:text-gray-900 hover:bg-white/50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800/60"
-        }`}
-      >
-        <ProviderIcon
-          icon={appIconName.gemini}
-          name={appDisplayName.gemini}
-          size={iconSize}
-          className={
-            activeApp === "gemini"
-              ? "text-foreground"
-              : "text-gray-500 dark:text-gray-400 group-hover:text-foreground transition-colors"
-          }
-        />
-        <span>{appDisplayName.gemini}</span>
-      </button>
+    <div className="flex flex-col gap-1">
+      {apps.map((app) => {
+        const isActive = activeApp === app.id;
+        return (
+          <button
+            key={app.id}
+            type="button"
+            onClick={() => onSwitch(app.id)}
+            className={cn(
+              "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+              isActive
+                ? "bg-[hsl(var(--sidebar-accent))] text-[hsl(var(--sidebar-foreground))]"
+                : "text-[hsl(var(--sidebar-muted))] hover:bg-[hsl(var(--sidebar-accent))] hover:text-[hsl(var(--sidebar-foreground))]"
+            )}
+          >
+            <ProviderIcon
+              icon={app.icon}
+              name={app.name}
+              size={18}
+              className={cn(
+                "transition-colors",
+                isActive
+                  ? "text-[hsl(var(--sidebar-foreground))]"
+                  : "text-[hsl(var(--sidebar-muted))]"
+              )}
+            />
+            <span>{app.name}</span>
+            {isActive && (
+              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
