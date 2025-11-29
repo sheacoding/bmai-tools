@@ -1,476 +1,403 @@
+# 北马AI - 工具包 (BMAI Tools)
+
+## 🐴 北马AI·与你同在 😊
+
+
 <div align="center">
 
-# BMAI Tools - All-in-One AI Assistant
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/bayma888/bmai-tools/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tauri](https://img.shields.io/badge/Tauri-2.8.2-blue.svg)](https://tauri.app/)
+[![React](https://img.shields.io/badge/React-18.2.0-61dafb.svg)](https://reactjs.org/)
 
-[![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Trending](https://img.shields.io/badge/🔥_TypeScript_Trending-Daily%20%7C%20Weekly%20%7C%20Monthly-ff6b6b.svg)](https://github.com/trending/typescript)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
-[![Downloads](https://img.shields.io/endpoint?url=https://api.pinstudios.net/api/badges/downloads/farion1231/cc-switch/total)](https://github.com/farion1231/cc-switch/releases/latest)
+**一站式 AI CLI 管理平台 | All-in-One AI CLI Management Platform**
 
-<a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Changelog](CHANGELOG.md)
-
-**Your All-in-One AI Management Platform**
-
-Unified management for Claude Code, Codex & Gemini CLI provider configurations, MCP servers, Skills extensions, and system prompts.
+[简体中文](#简介) | [English](#introduction)
 
 </div>
 
-## ❤️Sponsor
+---
 
-![Zhipu GLM](assets/partners/banners/glm-en.jpg)
+## 🎯 核心理念
 
-This project is sponsored by Z.ai, supporting us with their GLM CODING PLAN.
+**北马AI工具包** 是一个专为 AI CLI 工具设计的统一配置管理平台。让你轻松驾驭三大 AI 助手：
 
-GLM CODING PLAN is a subscription service designed for AI coding, starting at just $3/month. It provides access to their flagship GLM-4.6 model across 10+ popular AI coding tools (Claude Code, Cline, Roo Code, etc.), offering developers top-tier, fast, and stable coding experiences.
+- **Claude Code** 💼 - 开发主逻辑功能、规划项目全面、日常生产力主力！
+- **Gemini CLI** 🎨 - 主打前端视觉审美生成、你可以把它当UI设计师！
+- **Codex** 🔍 - 主打查找bug测试全面、修复效率好！
 
-Get 10% OFF the GLM CODING PLAN with [this link](https://z.ai/subscribe?ic=8JVLJQFSKB)!
+> 三个AI常驻你的电脑，已是常态，因为各有优势！
 
 ---
 
-<table>
-<tr>
-<td width="180"><img src="assets/partners/logos/packycode.png" alt="PackyCode" width="150"></td>
-<td>Thanks to PackyCode for sponsoring this project! PackyCode is a reliable and efficient API relay service provider, offering relay services for Claude Code, Codex, Gemini, and more. PackyCode provides special discounts for our software users: register using <a href="https://www.packyapi.com/register?aff=cc-switch">this link</a> and enter the "cc-switch" promo code during recharge to get 10% off.</td>
-</tr>
+## ✨ 核心功能
 
-<tr>
-<td width="180"><img src="assets/partners/logos/sds-en.png" alt="ShanDianShuo" width="150"></td>
-<td>Thanks to ShanDianShuo for sponsoring this project! ShanDianShuo is a local-first AI voice input: Millisecond latency, data stays on device, 4x faster than typing, AI-powered correction, Privacy-first, completely free. Doubles your coding efficiency with Claude Code! <a href="https://www.shandianshuo.cn">Free download</a> for Mac/Win</td>
-</tr>
+### 🔌 Provider 管理
+- **多供应商配置** - 一键切换不同的 API 供应商
+- **预设模板** - 内置主流供应商配置(OpenAI、Claude、Gemini、国内大模型等)
+- **自定义端点** - 支持自定义 API 端点和多端点配置
+- **配置导入导出** - 备份和恢复你的供应商配置
+- **使用量查询** - 实时查询 API 使用量和余额
+- **端点测速** - 测试不同供应商的响应延迟
 
-</table>
+### 🛠️ MCP 服务管理
+- **统一管理界面** - 一站式管理 Claude/Codex/Gemini 的 MCP 服务器
+- **多种传输协议** - 支持 stdio、http、sse 传输类型
+- **智能配置** - 自动同步配置到各个 CLI 工具
+- **内置模板** - 常用 MCP 服务器模板(mcp-fetch 等)
+- **实时开关** - 动态启用/禁用 MCP 服务器
 
-## Screenshots
+### 📚 Skills 管理系统
+- **GitHub 集成** - 从 GitHub 仓库自动发现和安装 Skills
+- **预配置仓库** - 内置优质 Skills 仓库
+  - `ComposioHQ/awesome-claude-skills` (精选集合)
+  - `anthropics/skills` (官方 Anthropic Skills)
+  - `cexll/myclaude` (社区贡献)
+- **生命周期管理** - 一键安装、卸载、更新检查
+- **自定义仓库** - 支持添加任何 GitHub 仓库作为 Skill 源
 
-|                  Main Interface                   |                  Add Provider                  |
-| :-----------------------------------------------: | :--------------------------------------------: |
-| ![Main Interface](assets/screenshots/main-en.png) | ![Add Provider](assets/screenshots/add-en.png) |
+### 📝 Prompts 管理
+- **多预设管理** - 创建、编辑和切换多个系统提示词
+- **跨应用支持** - 自动同步到 Claude/Codex/Gemini
+- **Markdown 编辑器** - 全功能代码编辑器,支持语法高亮
+- **智能同步** - 启用时自动写入实时配置文件
 
-## Features
+### 🌐 多语言支持
+- 🇨🇳 简体中文
+- 🇺🇸 English
 
-### Current Version: v3.8.0 | [Full Changelog](CHANGELOG.md) | [Release Notes](docs/release-note-v3.8.0-en.md)
+### 🚀 其他特性
+- **系统托盘** - 快速切换供应商,无需打开主窗口
+- **自动启动** - 开机自动启动(可选)
+- **深度链接** - 通过 `ccswitch://` 协议导入配置
+- **环境变量检测** - 自动识别和解决配置冲突
+- **暗色模式** - 优雅的暗色主题设计
+- **跨平台** - 支持 Windows、macOS、Linux
 
-**v3.8.0 Major Update (2025-11-28)**
+---
 
-**Persistence Architecture Upgrade & Brand New UI**
+## 📦 安装
 
-- **SQLite + JSON Dual-layer Architecture**
-  - Migrated from JSON file storage to SQLite + JSON dual-layer structure
-  - Syncable data (providers, MCP, Prompts, Skills) stored in SQLite
-  - Device-level data (window state, local paths) stored in JSON
-  - Lays the foundation for future cloud sync functionality
-  - Schema version management for database migrations
+### Windows
+```bash
+# 下载 MSI 安装包
+# https://github.com/bayma888/bmai-tools/releases/latest
 
-- **Brand New User Interface**
-  - Completely redesigned interface layout
-  - Unified component styles and smoother animations
-  - Optimized visual hierarchy
-  - Tailwind CSS downgraded from v4 to v3.4 for better browser compatibility
+# 或下载便携版 ZIP
+BMAI-Tools-Windows-Portable.zip
+```
 
-- **Japanese Language Support**
-  - Added Japanese interface support (now supports Chinese/English/Japanese)
+### macOS
+```bash
+# 下载 .tar.gz 或 .zip
+BMAI-Tools-macOS.tar.gz
+```
 
-- **Auto Launch on Startup**
-  - One-click enable/disable in settings
-  - Platform-native APIs (Registry/LaunchAgent/XDG autostart)
+---
 
-- **Skills Recursive Scanning**
-  - Support for multi-level directory structures
-  - Allow same-named skills from different repositories
+## 🚀 快速开始
 
-- **Critical Bug Fixes**
-  - Fixed custom endpoints lost when updating providers
-  - Fixed Gemini configuration write issues
-  - Fixed Linux WebKitGTK rendering issues
+### 1️⃣ 安装 AI CLI 工具
 
-**v3.7.0 Highlights**
-
-**Six Core Features, 18,000+ Lines of New Code**
-
-- **Gemini CLI Integration**
-  - Third supported AI CLI (Claude Code / Codex / Gemini)
-  - Dual-file configuration support (`.env` + `settings.json`)
-  - Complete MCP server management
-  - Presets: Google Official (OAuth) / PackyCode / Custom
-
-- **Claude Skills Management System**
-  - Auto-scan skills from GitHub repositories (3 pre-configured curated repos)
-  - One-click install/uninstall to `~/.claude/skills/`
-  - Custom repository support + subdirectory scanning
-  - Complete lifecycle management (discover/install/update)
-
-- **Prompts Management System**
-  - Multi-preset system prompt management (unlimited presets, quick switching)
-  - Cross-app support (Claude: `CLAUDE.md` / Codex: `AGENTS.md` / Gemini: `GEMINI.md`)
-  - Markdown editor (CodeMirror 6 + real-time preview)
-  - Smart backfill protection, preserves manual modifications
-
-- **MCP v3.7.0 Unified Architecture**
-  - Single panel manages MCP servers across three applications
-  - New SSE (Server-Sent Events) transport type
-  - Smart JSON parser + Codex TOML format auto-correction
-  - Unified import/export + bidirectional sync
-
-- **Deep Link Protocol**
-  - `ccswitch://` protocol registration (all platforms)
-  - One-click import provider configs via shared links
-  - Security validation + lifecycle integration
-
-- **Environment Variable Conflict Detection**
-  - Auto-detect cross-app configuration conflicts (Claude/Codex/Gemini/MCP)
-  - Visual conflict indicators + resolution suggestions
-  - Override warnings + backup before changes
-
-**Core Capabilities**
-
-- **Provider Management**: One-click switching between Claude Code, Codex, and Gemini API configurations
-- **Speed Testing**: Measure API endpoint latency with visual quality indicators
-- **Import/Export**: Backup and restore configs with auto-rotation (keep 10 most recent)
-- **i18n Support**: Complete Chinese/English localization (UI, errors, tray)
-- **Claude Plugin Sync**: One-click apply/restore Claude plugin configurations
-
-**v3.6 Highlights**
-
-- Provider duplication & drag-and-drop sorting
-- Multi-endpoint management & custom config directory (cloud sync ready)
-- Granular model configuration (4-tier: Haiku/Sonnet/Opus/Custom)
-- WSL environment support with auto-sync on directory change
-- 100% hooks test coverage & complete architecture refactoring
-
-**System Features**
-
-- System tray with quick switching
-- Single instance daemon
-- Built-in auto-updater
-- Atomic writes with rollback protection
-
-## Download & Installation
-
-### System Requirements
-
-- **Windows**: Windows 10 and above
-- **macOS**: macOS 10.15 (Catalina) and above
-- **Linux**: Ubuntu 22.04+ / Debian 11+ / Fedora 34+ and other mainstream distributions
-
-### Windows Users
-
-Download the latest `CC-Switch-v{version}-Windows.msi` installer or `CC-Switch-v{version}-Windows-Portable.zip` portable version from the [Releases](../../releases) page.
-
-### macOS Users
-
-**Method 1: Install via Homebrew (Recommended)**
+首先安装你需要的 AI CLI 工具:
 
 ```bash
-brew tap farion1231/ccswitch
-brew install --cask cc-switch
+# Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# Codex
+npm install -g @modelcontextprotocol/codex
+
+# Gemini CLI
+npm install -g @google/gemini-cli
 ```
 
-Update:
+### 2️⃣ 启动 BMAI Tools
+
+打开应用后,你会看到:
+- **Providers** - 管理你的 API 供应商
+- **MCP** - 配置 Model Context Protocol 服务
+- **Skills** - 安装和管理 Claude Skills
+- **Prompts** - 管理系统提示词
+
+### 3️⃣ 添加供应商
+
+1. 点击 **"添加 Provider"**
+2. 选择预设供应商或创建自定义配置
+3. 填写 API Key 和相关信息
+4. 保存并启用
+
+### 4️⃣ 开始使用
+
+- 在系统托盘快速切换供应商
+- 配置会自动同步到对应的 CLI 工具
+- 享受无缝的 AI 开发体验！
+
+---
+
+## 🏗️ 技术栈
+
+### 前端技术
+- **React 18.2** - 用户界面框架
+- **TypeScript 5.3** - 类型安全
+- **Vite 5.x** - 快速构建工具
+- **TailwindCSS 3.4** - 原子化 CSS
+- **Radix UI** - 无障碍组件库
+- **CodeMirror 6** - 代码编辑器
+- **TanStack Query** - 数据状态管理
+- **i18next** - 国际化方案
+
+### 后端技术
+- **Tauri 2.8** - 跨平台桌面框架
+- **Rust 1.85** - 高性能后端语言
+- **SQLite** - 本地数据存储
+- **Tokio** - 异步运行时
+- **Reqwest** - HTTP 客户端
+
+### 核心依赖
+- **tauri-plugin-store** - 配置持久化
+- **tauri-plugin-updater** - 自动更新
+- **tauri-plugin-dialog** - 原生对话框
+- **auto-launch** - 开机自启动
+
+---
+
+## 📂 项目结构
+
+```
+bmai-tools/
+├── src/                      # React 前端代码
+│   ├── components/           # UI 组件
+│   │   ├── providers/        # Provider 管理
+│   │   ├── mcp/              # MCP 配置
+│   │   ├── prompts/          # Prompts 管理
+│   │   └── settings/         # 设置界面
+│   ├── i18n/                 # 国际化文件
+│   ├── hooks/                # React Hooks
+│   └── lib/                  # 工具函数
+├── src-tauri/                # Rust 后端代码
+│   ├── src/
+│   │   ├── commands/         # Tauri 命令
+│   │   ├── database/         # 数据库模块
+│   │   ├── services/         # 业务逻辑
+│   │   └── main.rs           # 入口文件
+│   └── Cargo.toml            # Rust 依赖
+├── docs/                     # 项目文档
+├── scripts/                  # 构建脚本
+└── tests/                    # 测试文件
+```
+
+---
+
+## 🛠️ 开发指南
+
+### 环境要求
+
+- **Node.js** >= 20.x
+- **pnpm** >= 10.x
+- **Rust** >= 1.85.0
+- **Tauri CLI** 2.x
+
+### 安装依赖
 
 ```bash
-brew upgrade --cask cc-switch
-```
+# 克隆仓库
+git clone https://github.com/bayma888/bmai-tools.git
+cd bmai-tools
 
-**Method 2: Manual Download**
-
-Download `CC-Switch-v{version}-macOS.zip` from the [Releases](../../releases) page and extract to use.
-
-> **Note**: Since the author doesn't have an Apple Developer account, you may see an "unidentified developer" warning on first launch. Please close it first, then go to "System Settings" → "Privacy & Security" → click "Open Anyway", and you'll be able to open it normally afterwards.
-
-### ArchLinux 用户
-
-**Install via paru (Recommended)**
-
-```bash
-paru -S cc-switch-bin
-```
-
-### Linux Users
-
-Download the latest `CC-Switch-v{version}-Linux.deb` package or `CC-Switch-v{version}-Linux.AppImage` from the [Releases](../../releases) page.
-
-## Quick Start
-
-### Basic Usage
-
-1. **Add Provider**: Click "Add Provider" → Choose preset or create custom configuration
-2. **Switch Provider**:
-   - Main UI: Select provider → Click "Enable"
-   - System Tray: Click provider name directly (instant effect)
-3. **Takes Effect**: Restart your terminal or Claude Code / Codex / Gemini clients to apply changes
-4. **Back to Official**: Select the "Official Login" preset (Claude/Codex) or "Google Official" preset (Gemini), restart the corresponding client, then follow its login/OAuth flow
-
-### MCP Management
-
-- **Location**: Click "MCP" button in top-right corner
-- **Add Server**:
-  - Use built-in templates (mcp-fetch, mcp-filesystem, etc.)
-  - Support stdio / http / sse transport types
-  - Configure independent MCP servers for different apps
-- **Enable/Disable**: Toggle switches to control which servers sync to live config
-- **Sync**: Enabled servers auto-sync to each app's live files
-- **Import/Export**: Import existing MCP servers from Claude/Codex/Gemini config files
-
-### Skills Management (v3.7.0 New)
-
-- **Location**: Click "Skills" button in top-right corner
-- **Discover Skills**:
-  - Auto-scan pre-configured GitHub repositories (Anthropic official, ComposioHQ, community, etc.)
-  - Add custom repositories (supports subdirectory scanning)
-- **Install Skills**: Click "Install" to one-click install to `~/.claude/skills/`
-- **Uninstall Skills**: Click "Uninstall" to safely remove and clean up state
-- **Manage Repositories**: Add/remove custom GitHub repositories
-
-### Prompts Management (v3.7.0 New)
-
-- **Location**: Click "Prompts" button in top-right corner
-- **Create Presets**:
-  - Create unlimited system prompt presets
-  - Use Markdown editor to write prompts (syntax highlighting + real-time preview)
-- **Switch Presets**: Select preset → Click "Activate" to apply immediately
-- **Sync Mechanism**:
-  - Claude: `~/.claude/CLAUDE.md`
-  - Codex: `~/.codex/AGENTS.md`
-  - Gemini: `~/.gemini/GEMINI.md`
-- **Protection Mechanism**: Auto-save current prompt content before switching, preserves manual modifications
-
-### Configuration Files
-
-**Claude Code**
-
-- Live config: `~/.claude/settings.json` (or `claude.json`)
-- API key field: `env.ANTHROPIC_AUTH_TOKEN` or `env.ANTHROPIC_API_KEY`
-- MCP servers: `~/.claude.json` → `mcpServers`
-
-**Codex**
-
-- Live config: `~/.codex/auth.json` (required) + `config.toml` (optional)
-- API key field: `OPENAI_API_KEY` in `auth.json`
-- MCP servers: `~/.codex/config.toml` → `[mcp_servers]` tables
-
-**Gemini**
-
-- Live config: `~/.gemini/.env` (API key) + `~/.gemini/settings.json` (auth mode)
-- API key field: `GEMINI_API_KEY` or `GOOGLE_GEMINI_API_KEY` in `.env`
-- Environment variables: Support `GOOGLE_GEMINI_BASE_URL`, `GEMINI_MODEL`, etc.
-- MCP servers: `~/.gemini/settings.json` → `mcpServers`
-- Tray quick switch: Each provider switch rewrites `~/.gemini/.env`, no need to restart Gemini CLI
-
-**CC Switch Storage (v3.8.0 New Architecture)**
-
-- Database (SSOT): `~/.cc-switch/cc-switch.db` (SQLite, stores providers, MCP, Prompts, Skills)
-- Local settings: `~/.cc-switch/settings.json` (device-level settings)
-- Backups: `~/.cc-switch/backups/` (auto-rotate, keep 10)
-
-### Cloud Sync Setup
-
-1. Go to Settings → "Custom Configuration Directory"
-2. Choose your cloud sync folder (Dropbox, OneDrive, iCloud, etc.)
-3. Restart app to apply
-4. Repeat on other devices to enable cross-device sync
-
-> **Note**: First launch auto-imports existing Claude/Codex configs as default provider.
-
-## Architecture Overview
-
-### Design Principles
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Frontend (React + TS)                    │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐    │
-│  │ Components  │  │    Hooks     │  │  TanStack Query  │    │
-│  │   (UI)      │──│ (Bus. Logic) │──│   (Cache/Sync)   │    │
-│  └─────────────┘  └──────────────┘  └──────────────────┘    │
-└────────────────────────┬────────────────────────────────────┘
-                         │ Tauri IPC
-┌────────────────────────▼────────────────────────────────────┐
-│                  Backend (Tauri + Rust)                     │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐    │
-│  │  Commands   │  │   Services   │  │  Models/Config   │    │
-│  │ (API Layer) │──│ (Bus. Layer) │──│     (Data)       │    │
-│  └─────────────┘  └──────────────┘  └──────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**Core Design Patterns**
-
-- **SSOT** (Single Source of Truth): All data stored in `~/.cc-switch/cc-switch.db` (SQLite)
-- **Dual-layer Storage**: SQLite for syncable data, JSON for device-level settings
-- **Dual-way Sync**: Write to live files on switch, backfill from live when editing active provider
-- **Atomic Writes**: Temp file + rename pattern prevents config corruption
-- **Concurrency Safe**: Mutex-protected database connection avoids race conditions
-- **Layered Architecture**: Clear separation (Commands → Services → DAO → Database)
-
-**Key Components**
-
-- **ProviderService**: Provider CRUD, switching, backfill, sorting
-- **McpService**: MCP server management, import/export, live file sync
-- **ConfigService**: Config import/export, backup rotation
-- **SpeedtestService**: API endpoint latency measurement
-
-**v3.6 Refactoring**
-
-- Backend: 5-phase refactoring (error handling → command split → tests → services → concurrency)
-- Frontend: 4-stage refactoring (test infra → hooks → components → cleanup)
-- Testing: 100% hooks coverage + integration tests (vitest + MSW)
-
-## Development
-
-### Environment Requirements
-
-- Node.js 18+
-- pnpm 8+
-- Rust 1.85+
-- Tauri CLI 2.8+
-
-### Development Commands
-
-```bash
-# Install dependencies
+# 安装前端依赖
 pnpm install
+```
 
-# Dev mode (hot reload)
+### 开发模式
+
+```bash
+# 启动开发服务器
 pnpm dev
 
-# Type check
-pnpm typecheck
-
-# Format code
-pnpm format
-
-# Check code format
-pnpm format:check
-
-# Run frontend unit tests
-pnpm test:unit
-
-# Run tests in watch mode (recommended for development)
-pnpm test:unit:watch
-
-# Build application
-pnpm build
-
-# Build debug version
-pnpm tauri build --debug
+# 仅运行前端开发服务器
+pnpm dev:renderer
 ```
 
-### Rust Backend Development
+### 构建应用
+
+```bash
+# 构建生产版本
+pnpm build
+
+# 仅构建前端
+pnpm build:renderer
+```
+
+### 代码质量
+
+```bash
+# TypeScript 类型检查
+pnpm typecheck
+
+# 代码格式化
+pnpm format
+
+# 代码格式检查
+pnpm format:check
+
+# 运行单元测试
+pnpm test:unit
+
+# 监听模式运行测试
+pnpm test:unit:watch
+```
+
+### Rust 开发
 
 ```bash
 cd src-tauri
 
-# Format Rust code
+# 格式化 Rust 代码
 cargo fmt
 
-# Run clippy checks
+# 代码检查
 cargo clippy
 
-# Run backend tests
+# 运行 Rust 测试
 cargo test
-
-# Run specific tests
-cargo test test_name
-
-# Run tests with test-hooks feature
-cargo test --features test-hooks
 ```
 
-### Testing Guide (v3.6 New)
+---
 
-**Frontend Testing**:
+## 📊 数据持久化
 
-- Uses **vitest** as test framework
-- Uses **MSW (Mock Service Worker)** to mock Tauri API calls
-- Uses **@testing-library/react** for component testing
+### 配置文件位置
 
-**Test Coverage**:
-
-- Hooks unit tests (100% coverage)
-  - `useProviderActions` - Provider operations
-  - `useMcpActions` - MCP management
-  - `useSettings` series - Settings management
-  - `useImportExport` - Import/export
-- Integration tests
-  - App main application flow
-  - SettingsDialog complete interaction
-  - MCP panel functionality
-
-**Running Tests**:
-
-```bash
-# Run all tests
-pnpm test:unit
-
-# Watch mode (auto re-run)
-pnpm test:unit:watch
-
-# With coverage report
-pnpm test:unit --coverage
+**Windows:**
+```
+C:\Users\<用户名>\.BMAI-Tools\config.db
+C:\Users\<用户名>\.BMAI-Tools\settings.json
 ```
 
-## Tech Stack
-
-**Frontend**: React 18 · TypeScript · Vite · TailwindCSS 4 · TanStack Query v5 · react-i18next · react-hook-form · zod · shadcn/ui · @dnd-kit
-
-**Backend**: Tauri 2.8 · Rust · serde · tokio · thiserror · tauri-plugin-updater/process/dialog/store/log
-
-**Testing**: vitest · MSW · @testing-library/react
-
-## Project Structure
-
+**macOS:**
 ```
-├── src/                      # Frontend (React + TypeScript)
-│   ├── components/           # UI components (providers/settings/mcp/ui)
-│   ├── hooks/                # Custom hooks (business logic)
-│   ├── lib/
-│   │   ├── api/              # Tauri API wrapper (type-safe)
-│   │   └── query/            # TanStack Query config
-│   ├── i18n/locales/         # Translations (zh/en)
-│   ├── config/               # Presets (providers/mcp)
-│   └── types/                # TypeScript definitions
-├── src-tauri/                # Backend (Rust)
-│   └── src/
-│       ├── commands/         # Tauri command layer (by domain)
-│       ├── services/         # Business logic layer
-│       ├── app_config.rs     # Config data models
-│       ├── provider.rs       # Provider domain models
-│       ├── mcp.rs            # MCP sync & validation
-│       └── lib.rs            # App entry & tray menu
-├── tests/                    # Frontend tests
-│   ├── hooks/                # Unit tests
-│   └── components/           # Integration tests
-└── assets/                   # Screenshots & partner resources
+~/.BMAI-Tools/config.db
+~/.BMAI-Tools/settings.json
 ```
 
-## Changelog
+**Linux:**
+```
+~/.BMAI-Tools/config.db
+~/.BMAI-Tools/settings.json
+```
 
-See [CHANGELOG.md](CHANGELOG.md) for version update details.
+### 数据结构
 
-## Legacy Electron Version
+- **config.db** - SQLite 数据库,存储 Providers、MCP、Skills 等配置
+- **settings.json** - 应用设置(语言、自动启动等)
+- **备份文件** - 自动创建配置备份(保留最近10个)
 
-[Releases](../../releases) retains v2.0.3 legacy Electron version
+---
 
-If you need legacy Electron code, you can pull the electron-legacy branch
+## 🔐 安全性
 
-## Contributing
+- ✅ **本地存储** - 所有配置和 API Key 仅存储在本地
+- ✅ **无数据上传** - 不会上传任何配置到云端
+- ✅ **权限最小化** - 仅请求必要的系统权限
+- ✅ **CSP 保护** - 内容安全策略防止 XSS 攻击
+- ✅ **Rust 安全** - 使用内存安全的 Rust 语言
 
-Issues and suggestions are welcome!
+---
 
-Before submitting PRs, please ensure:
+## 🤝 贡献指南
 
-- Pass type check: `pnpm typecheck`
-- Pass format check: `pnpm format:check`
-- Pass unit tests: `pnpm test:unit`
-- 💡 For new features, please open an issue for discussion before submitting a PR
+我们欢迎所有形式的贡献！
 
-## Star History
+### 如何贡献
 
-[![Star History Chart](https://api.star-history.com/svg?repos=farion1231/cc-switch&type=Date)](https://www.star-history.com/#farion1231/cc-switch&Date)
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
 
-## License
+### 开发规范
 
-MIT © Jason Young
+- 遵循 TypeScript/Rust 代码规范
+- 编写清晰的提交信息
+- 添加必要的注释和文档
+- 确保测试通过
+
+---
+
+## 📝 更新日志
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解详细的版本历史。
+
+
+---
+
+## 🐛 问题反馈
+
+遇到问题？请在 [Issues](https://github.com/bayma888/bmai-tools/issues) 提交反馈。
+
+提交 Issue 时请包含:
+- 操作系统和版本
+- 应用版本
+- 详细的问题描述
+- 复现步骤
+- 错误日志(如有)
+
+---
+
+## 📄 许可证
+
+本项目采用 [MIT License](LICENSE) 开源协议。
+
+---
+
+## 👥 团队
+
+**BMAI Team**
+
+- **项目维护** - [bayma888](https://github.com/bayma888)
+- **技术支持** - Bayma AI 社区
+
+---
+
+## 🙏 致谢
+
+感谢以下开源项目和贡献者:
+
+- [Tauri](https://tauri.app/) - 跨平台应用框架
+- [Claude Code](https://claude.com/code) - Anthropic AI CLI
+- [Codex](https://modelcontextprotocol.io/) - MCP CLI
+- [Gemini CLI](https://ai.google.dev/) - Google AI CLI
+- 所有贡献者和用户的支持
+
+---
+
+## 🔗 相关链接
+
+- **官方网站** - [待补充]
+- **使用文档** - [docs/](docs/)
+- **发布页面** - [Releases](https://github.com/bayma888/bmai-tools/releases)
+- **问题反馈** - [Issues](https://github.com/bayma888/bmai-tools/issues)
+
+---
+
+## 💬 社区
+
+欢迎加入我们的社区:
+
+- 💬 **讨论区** - [GitHub Discussions](https://github.com/bayma888/bmai-tools/discussions)
+<!-- - 🐦 **Twitter** - [@BaymaAI](https://twitter.com/BaymaAI) -->
+- 📧 **邮箱** -
+
+---
+
+<div align="center">
+
+**🐴 北马AI·与你同在 😊**
+
+Made with ❤️ by BMAI Team
+
+[⬆ 回到顶部](#北马ai工具包-bmai-tools)
+
+</div>
